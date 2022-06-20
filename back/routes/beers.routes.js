@@ -25,6 +25,7 @@ router.post('/', async (req, res, next) => {
       tagline: tagline.trim(),
       volume: parseFloat(volume),
     })
+    console.log(beer)
 
     res.status(201).json({ message: 'New beer created', id: beer.id })
   } catch (error) {
