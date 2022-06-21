@@ -7,7 +7,7 @@ import { login } from '../utils/helper'
 
 const LoginPage = () => {
   const navigate = useNavigate()
-  const { setToken } = useContext(SessionContext)
+  const { authenticateUser } = useContext(SessionContext)
   const form = useForm({
     initialValues: {
       username: '',
@@ -22,7 +22,7 @@ const LoginPage = () => {
       if (response.status === 'KO') {
         throw new Error(response.message)
       } else {
-        setToken(response.token)
+        authenticateUser(response.token)
       }
     } catch (error) {
       console.log(error)

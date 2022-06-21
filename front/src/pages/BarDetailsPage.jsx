@@ -1,21 +1,23 @@
 import { ActionIcon, Paper, Text, Title } from '@mantine/core'
+import { useContext } from 'react'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Pencil, Trash } from 'tabler-icons-react'
 import UpdateBarModal from '../components/UpdateBarModal'
+import { SessionContext } from '../contexts/SessionContext'
 
 const BarDetailsPage = () => {
   const { barId } = useParams()
   const navigate = useNavigate()
+  const { apiWithToken } = useContext(SessionContext)
 
   const [bar, setBar] = useState({})
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [needRefresh, setNeedRefresh] = useState(false)
 
   const fetchBar = async () => {
-    const response = await fetch(`http://localhost:5005/api/bars/${barId}`)
-    const parsed = await response.json()
-    setBar(parsed)
+    const response = await apiWithToken(`bars/${barId}`)
+    setBar(response)
   }
 
   useEffect(() => {

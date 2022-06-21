@@ -5,7 +5,7 @@ const BeersContext = createContext()
 
 const BeersContextProvider = ({ children }) => {
   const [beers, setBeers] = useState([])
-  const { token, apiWithToken } = useContext(SessionContext)
+  const { isAuthenticated, apiWithToken } = useContext(SessionContext)
 
   const fetchBeers = async () => {
     const response = await apiWithToken('beers')
@@ -13,10 +13,10 @@ const BeersContextProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    if (token) {
+    if (isAuthenticated) {
       fetchBeers()
     }
-  }, [token])
+  }, [isAuthenticated])
 
   return <BeersContext.Provider value={{ beers }}>{children}</BeersContext.Provider>
 }

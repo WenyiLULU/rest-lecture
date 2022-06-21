@@ -1,17 +1,18 @@
-import { Anchor, AppShell, Box, Header, Image, Navbar, Title } from '@mantine/core'
+import { ActionIcon, Anchor, AppShell, Box, Header, Image, Navbar, Title } from '@mantine/core'
 import { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
+import { Logout } from 'tabler-icons-react'
 import { SessionContext } from '../contexts/SessionContext'
 
 const Layout = ({ children }) => {
-  const { token } = useContext(SessionContext)
+  const { isAuthenticated, logout } = useContext(SessionContext)
 
   return (
     <AppShell
       padding='md'
       navbar={
         <Navbar width={{ base: 100 }} p='xs'>
-          {!token ? (
+          {!isAuthenticated ? (
             <>
               <Anchor
                 component={NavLink}
@@ -44,6 +45,9 @@ const Layout = ({ children }) => {
               >
                 Bars
               </Anchor>
+              <ActionIcon onClick={logout}>
+                <Logout size={48} strokeWidth={2} color={'black'} />
+              </ActionIcon>
             </>
           )}
         </Navbar>

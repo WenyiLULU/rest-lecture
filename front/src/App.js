@@ -1,7 +1,10 @@
+import { useContext } from 'react'
 import { Route, Routes } from 'react-router-dom'
+import AnonymousRoute from './components/AnonymousRoute'
 import Layout from './components/Layout'
+import PrivateRoute from './components/PrivateRoute'
 import { BeersContextProvider } from './contexts/BeersContext'
-import { SessionContextProvider } from './contexts/SessionContext'
+import { SessionContext } from './contexts/SessionContext'
 import AllBarsPage from './pages/AllBarsPage'
 import AllBeersPage from './pages/AllBeersPage'
 import BarDetailsPage from './pages/BarDetailsPage'
@@ -12,22 +15,62 @@ import SignupPage from './pages/SignupPage'
 
 function App() {
   return (
-    <SessionContextProvider>
-      <BeersContextProvider>
-        <Layout>
-          <Routes>
-            <Route path='/' element={<h1>Hello anonymous</h1>} />
-            <Route path='/signup' element={<SignupPage />} />
-            <Route path='/login' element={<LoginPage />} />
-            <Route path='/beers' element={<AllBeersPage />} />
-            <Route path='/bars' element={<AllBarsPage />} />
-            <Route path='/beers/:beerId' element={<BeerDetailsPage />} />
-            <Route path='/bars/:barId' element={<BarDetailsPage />} />
-            <Route path='*' element={<ErrorPage />} />
-          </Routes>
-        </Layout>
-      </BeersContextProvider>
-    </SessionContextProvider>
+    <BeersContextProvider>
+      <Layout>
+        <Routes>
+          <Route path='/' element={<h1>Hello anonymous</h1>} />
+          <Route
+            path='/signup'
+            element={
+              <AnonymousRoute>
+                <SignupPage />
+              </AnonymousRoute>
+            }
+          />
+          <Route
+            path='/login'
+            element={
+              <AnonymousRoute>
+                <LoginPage />
+              </AnonymousRoute>
+            }
+          />
+          <Route
+            path='/beers'
+            element={
+              <PrivateRoute>
+                <AllBeersPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/bars'
+            element={
+              <PrivateRoute>
+                <AllBarsPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/beers/:beerId'
+            element={
+              <PrivateRoute>
+                <BeerDetailsPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/bars/:barId'
+            element={
+              <PrivateRoute>
+                <BarDetailsPage />
+              </PrivateRoute>
+            }
+          />
+          <Route path='*' element={<ErrorPage />} />
+        </Routes>
+      </Layout>
+    </BeersContextProvider>
   )
 }
 
