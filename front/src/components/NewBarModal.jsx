@@ -1,22 +1,18 @@
 import { Button, Input, InputWrapper, Modal, MultiSelect, NumberInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { fetchBeers } from '../utils/helper'
+import { BeersContext } from '../contexts/BeersContext'
 
 const NewBarModal = ({ isModalOpen, setIsModalOpen }) => {
   const navigate = useNavigate()
-  const [beers, setBeers] = useState([])
+  const { beers } = useContext(BeersContext)
   const form = useForm({
     initialValues: {
       name: '',
       beers: [],
     },
   })
-
-  useEffect(() => {
-    fetchBeers(setBeers)
-  }, [])
 
   const createBar = async newBar => {
     const response = await fetch('http://localhost:5005/api/bars', {

@@ -1,9 +1,12 @@
 import { Button, Input, InputWrapper, Modal, NumberInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
+import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { SessionContext } from '../contexts/SessionContext'
 
 const NewBeerModal = ({ isModalOpen, setIsModalOpen }) => {
   const navigate = useNavigate()
+  const { apiWithToken } = useContext(SessionContext)
   const form = useForm({
     initialValues: {
       name: '',
@@ -13,15 +16,8 @@ const NewBeerModal = ({ isModalOpen, setIsModalOpen }) => {
   })
 
   const createBeer = async newBeer => {
-    const response = await fetch('http://localhost:5005/api/beers', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newBeer),
-    })
-    const parsed = await response.json()
-    navigate(`/beers/${parsed.id}`)
+    const response = await apiWithToken('beers', 'POST', newBeer)
+    navigate(`/beers/${response.id}`)
   }
 
   const handleSubmit = values => {

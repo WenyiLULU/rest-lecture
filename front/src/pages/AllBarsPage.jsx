@@ -1,17 +1,19 @@
 import { Box } from '@mantine/core'
+import { useContext } from 'react'
 import { useEffect, useState } from 'react'
 import AddButton from '../components/AddButton'
 import BarCard from '../components/BarCard'
 import NewBarModal from '../components/NewBarModal'
+import { SessionContext } from '../contexts/SessionContext'
 
 const AllBarsPage = () => {
+  const { apiWithToken } = useContext(SessionContext)
   const [bars, setBars] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const fetchData = async () => {
-    const response = await fetch('http://localhost:5005/api/bars')
-    const parsed = await response.json()
-    setBars(parsed)
+    const response = await apiWithToken('bars')
+    setBars(response)
   }
 
   useEffect(() => {

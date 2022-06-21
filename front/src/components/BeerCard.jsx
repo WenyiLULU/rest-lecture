@@ -1,5 +1,6 @@
 import { Card, Text } from '@mantine/core'
 import { Link } from 'react-router-dom'
+import BeerCardSection from './BeerCardSection'
 
 const BeerCard = ({ beer }) => {
   return (
@@ -14,11 +15,7 @@ const BeerCard = ({ beer }) => {
         },
       }}
     >
-      <Card.Section>
-        <Text weight={500} size='lg' align='center'>
-          {beer.name}
-        </Text>
-      </Card.Section>
+      <BeerCardSection name={beer.name} />
 
       <Text weight={500} align='center'>
         {beer.tagline}
