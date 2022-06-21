@@ -1,17 +1,14 @@
 import { Box } from '@mantine/core'
-import { useEffect, useState } from 'react'
+import { useContext } from 'react'
+import { useState } from 'react'
 import AddButton from '../components/AddButton'
 import BeerCard from '../components/BeerCard'
 import NewBeerModal from '../components/NewBeerModal'
-import { fetchBeers } from '../utils/helper'
+import { BeersContext } from '../contexts/BeersContext'
 
 const AllBeersPage = () => {
-  const [beers, setBeers] = useState([])
+  const { beers } = useContext(BeersContext)
   const [isModalOpen, setIsModalOpen] = useState(false)
-
-  useEffect(() => {
-    fetchBeers(setBeers)
-  }, [])
 
   return (
     <>

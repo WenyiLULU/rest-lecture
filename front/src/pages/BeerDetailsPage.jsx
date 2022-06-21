@@ -1,22 +1,24 @@
 import { ActionIcon, Paper, Text, Title } from '@mantine/core'
+import { useContext } from 'react'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Pencil, Trash } from 'tabler-icons-react'
 
 import UpdateBeerModal from '../components/UpdateBeerModal'
+import { SessionContext } from '../contexts/SessionContext'
 
 const BeerDetailsPage = () => {
   const { beerId } = useParams()
   const navigate = useNavigate()
+  const { apiWithToken } = useContext(SessionContext)
 
   const [beer, setBeer] = useState({})
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [needRefresh, setNeedRefresh] = useState(false)
 
   const fetchBeer = async () => {
-    const response = await fetch(`http://localhost:5005/api/beers/${beerId}`)
-    const parsed = await response.json()
-    setBeer(parsed)
+    const response = await apiWithToken(`beers/${beerId}`)
+    setBeer(response)
   }
 
   useEffect(() => {
@@ -32,7 +34,7 @@ const BeerDetailsPage = () => {
 
   const deleteBeer = async () => {
     await fetch(`http://localhost:5005/api/beers/${beerId}`, { method: 'DELETE' })
-    navigate('/')
+    navigate('/beers')
   }
 
   const handleDelete = () => {

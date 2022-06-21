@@ -1,20 +1,17 @@
 import { Button, Input, InputWrapper, Modal, MultiSelect } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { useEffect, useState } from 'react'
-import { fetchBeers } from '../utils/helper'
+import { useContext } from 'react'
+import { useEffect } from 'react'
+import { BeersContext } from '../contexts/BeersContext'
 
 const UpdateBarModal = ({ isModalOpen, setIsModalOpen, barId, bar, setNeedRefresh }) => {
-  const [beers, setBeers] = useState([])
+  const { beers } = useContext(BeersContext)
   const form = useForm({
     initialValues: {
       name: '',
       beers: [],
     },
   })
-
-  useEffect(() => {
-    fetchBeers(setBeers)
-  }, [])
 
   useEffect(() => {
     form.setValues({
